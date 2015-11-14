@@ -1,0 +1,20 @@
+#!/bin/bash
+# Bootstrapping fresh xubuntu installation.
+# All actions done by this script are idempotent.
+
+self_dir=$( dirname $( readlink -f ${BASH_SOURCE[0]} ) )
+
+dpkg -l 'aptitude' > /dev/null
+if [ $? -ne 0 ] ; then
+    sudo apt-get install aptitude
+fi
+
+echo "Installing packages"
+packages=$( cat packages.list | egrep -v "^#")
+sudo aptitude install -y $packages
+
+echo "Executing scripts"
+for file in $( find $self_dir/scripts -type f )
+do
+	. $file
+done
