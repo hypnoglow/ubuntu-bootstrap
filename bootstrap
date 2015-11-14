@@ -6,7 +6,7 @@ self_dir=$( dirname $( readlink -f ${BASH_SOURCE[0]} ) )
 
 dpkg -l 'aptitude' > /dev/null
 if [ $? -ne 0 ] ; then
-    sudo apt-get install aptitude
+	sudo apt-get install aptitude
 fi
 
 echo "Installing packages"

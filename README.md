@@ -10,4 +10,4 @@ Simple bootstrap script for fresh installed Ubuntu.
 	cd ~/sources/hypnoglow/ubuntu-bootstrap
 	git clone git@github.com:hypnoglow/ubuntu-bootstrap.git . 
 
-    ./bootstrap
+	./bootstrap
