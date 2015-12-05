@@ -20,3 +20,6 @@ synapse
 #gdebi
 inxi
 gksu
+checkinstall
+tmux
+htop

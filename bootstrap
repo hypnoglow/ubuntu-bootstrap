@@ -18,3 +18,5 @@ for file in $( find $self_dir/scripts -type f )
 do
 	. $file
 done
+
+echo "Bootstrapping is finished!"
