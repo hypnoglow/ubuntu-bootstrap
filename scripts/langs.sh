@@ -1,5 +1,5 @@
 install_golang() {
-	if which go ; then
+	if which go > /dev/null; then
 		return 0
 	fi
 
@@ -18,7 +18,7 @@ install_golang() {
 }
 
 install_rust() {
-	if which rustc ; then
+	if which rustc > /dev/null; then
 		return 0
 	fi
 
