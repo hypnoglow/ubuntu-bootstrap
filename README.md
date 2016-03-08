@@ -8,6 +8,6 @@ Simple bootstrap script for fresh installed Ubuntu.
 
 	mkdir -p ~/sources/hypnoglow/ubuntu-bootstrap
 	cd ~/sources/hypnoglow/ubuntu-bootstrap
-	git clone git@github.com:hypnoglow/ubuntu-bootstrap.git . 
+	git clone git@github.com:hypnoglow/ubuntu-bootstrap.git .
 
-	./bootstrap
+	./bootstrap [-i|--interactive]

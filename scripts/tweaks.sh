@@ -23,5 +23,7 @@ fi
 # Disable avahi
 # It will be disabled on further startups.
 if [ ! -e /etc/init/avahi-daemon.override ] || ! grep -q "manual" /etc/init/avahi-daemon.override ; then
+	echo "Disabling avahi daemon..."
 	echo "manual" | sudo tee /etc/init/avahi-daemon.override 1>/dev/null
+	echo "..ok"
 fi

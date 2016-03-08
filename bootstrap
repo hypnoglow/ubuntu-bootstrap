@@ -2,21 +2,70 @@
 # Bootstrapping fresh xubuntu installation.
 # All actions done by this script are idempotent.
 
-self_dir=$( dirname $( readlink -f ${BASH_SOURCE[0]} ) )
+ask() {
+	if [ -z "$1" ]; then
+		echo "Internal error: ask() called without question" >&2
+		exit 1
+	fi
 
-dpkg -l 'aptitude' > /dev/null
-if [ $? -ne 0 ] ; then
-	sudo apt-get install aptitude
-fi
+	local question="$1"
+	local answer
 
-echo "Installing packages"
-packages=$( cat packages.list | egrep -v "^#")
-sudo aptitude install -y $packages
+	echo -n "$question [y/N]: "
+	read answer
+	if [ "$answer" != "y" ] && [ "$answer" != "Y" ]; then
+		return 1
+	fi
 
-echo "Executing scripts"
-for file in $( find $self_dir/scripts -type f )
-do
-	. $file
-done
+	return 0
+}
 
-echo "Bootstrapping is finished!"
+# If called in non-interactive mode, always return true.
+# Else return 0 or 1 based on answer.
+interactive_ask() {
+	if [ "$interactive" = false ]; then
+		return 0
+	fi
+
+	ask "$1"
+	return "$?"
+}
+
+install_packages() {
+	echo "Installing packages"
+	packages=$( cat packages.list | egrep -v "^#")
+	sudo aptitude install -y $packages
+}
+
+main() {
+	self_dir=$( dirname $( readlink -f ${BASH_SOURCE[0]} ) )
+
+	dpkg -l 'aptitude' > /dev/null
+	if [ $? -ne 0 ] ; then
+		sudo apt-get install aptitude
+	fi
+
+	interactive=false
+
+	for param in "$@"; do
+		case "$param" in
+			-i|--interactive)
+				interactive=true
+				echo "Interactive mode enabled."
+			;;
+		esac
+	done
+
+	interactive_ask "Install packages?" && install_packages
+
+	echo "Executing scripts"
+	for file in $( find $self_dir/scripts -type f )
+	do
+		. $file
+	done
+
+	echo "Bootstrapping is finished!"
+}
+
+main "$@"
+exit 0
