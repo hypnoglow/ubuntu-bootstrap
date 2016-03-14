@@ -47,7 +47,7 @@ install_node() {
 	! interactive_ask "Install node.js?" && return 0
 	echo "Installing node.js"
 
-    curl -L http://git.io/n-install | N_PREFIX=~/util/n bash -s -- -n
+    curl -L http://git.io/n-install | N_PREFIX=~/apps/n bash -s -- -n 5.6.0
 }
 
 install_golang
